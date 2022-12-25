@@ -4,9 +4,10 @@
  */
 package config;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,23 +22,14 @@ import java.util.logging.Logger;
 public class CRUD {
 
     protected String driver = "com.mysql.cj.jdbc.Driver";
-    protected String url = "jdbc:mysql://localhost:3306/pa_sumber_hasil";
+    protected String url = "jdbc:mysql://localhost:3306/pulsa_ali";
     protected String user = "root";
     protected String pass = "";
     protected Connection cn;
     protected Statement st;
 
-    protected String namaTabel;
-    protected int jumlahKolom;
-    protected DefaultTableModel dt;
-    protected JTable tabel;
-
-    public String getNamaTabel() {
-        return namaTabel;
-    }
-
-    public void setNamaTabel(String namaTabel) {
-        this.namaTabel = namaTabel;
+    public CRUD() {
+        koneksi();
     }
 
     public void koneksi() {
@@ -53,23 +45,46 @@ public class CRUD {
 
     }
 
-    public ResultSet ambilSemuaData() {
+    public ResultSet ambilData(String query) {
         ResultSet rs = null;
         try {
-            rs = st.executeQuery("SELECT * FROM " + namaTabel);
+            rs = st.executeQuery("SELECT * FROM " + query);
         } catch (SQLException ex) {
             Logger.getLogger(CRUD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
     }
 
-    public ResultSet ambilDataYang(String query) {
-        ResultSet rs = null;
-        try {
-            rs = st.executeQuery("SELECT * FROM " + namaTabel + " " + query);
-        } catch (SQLException ex) {
-            Logger.getLogger(CRUD.class.getName()).log(Level.SEVERE, null, ex);
+    public void textError(javax.swing.JTextField j, String text) {
+        j.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)), text, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 0, 0))); // NOI18N
+    }
+
+    public void textSucces(javax.swing.JTextField j, String text) {
+        j.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0)), text, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 255, 0))); // NOI18N
+
+    }
+
+    public void togglePassword(javax.swing.JPasswordField p, javax.swing.JCheckBox c) {
+        if (c.isSelected()) {
+            p.setEchoChar('0');
+        } else {
+            p.setEchoChar('*');
         }
-        return rs;
+    }
+
+    public String StringToMD5(String Password) throws NoSuchAlgorithmException {
+        MessageDigest m = MessageDigest.getInstance("MD5");
+        m.update(Password.getBytes(), 0, Password.length());
+        return new BigInteger(1, m.digest()).toString(16);
+    }
+
+    public boolean textHarusDiIsi(javax.swing.JTextField j, String text, javax.swing.JButton b, boolean[] bool) {
+        if (j.getText().isBlank()) {
+            textError(j, text + " Harus Di Isi");
+            return false;
+        } else {
+            textSucces(j, text);
+            return true;
+        }
     }
 }

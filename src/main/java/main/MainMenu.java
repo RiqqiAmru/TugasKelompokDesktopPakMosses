@@ -4,9 +4,6 @@
  */
 package main;
 
-import java.beans.PropertyVetoException;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Riqqi
@@ -32,7 +29,6 @@ public class MainMenu extends javax.swing.JFrame {
         desktop = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         menu = new javax.swing.JMenu();
-        itemBarang = new javax.swing.JMenuItem();
         aboutUs = new javax.swing.JMenu();
         itemAbout = new javax.swing.JMenuItem();
 
@@ -50,10 +46,6 @@ public class MainMenu extends javax.swing.JFrame {
         );
 
         menu.setText("Menu");
-
-        itemBarang.setText("Barang");
-        menu.add(itemBarang);
-
         jMenuBar1.add(menu);
 
         aboutUs.setText("About Us");
@@ -91,25 +83,17 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void aboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutUsActionPerformed
-        AboutUs about = new AboutUs();
-        about.setVisible(true);
-        desktop.add(about);
-        try {
-            about.setSelected(true);
-        } catch (PropertyVetoException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+//        AboutUs about = new AboutUs();
+//        about.setVisible(true);
+//        desktop.add(about);
+//        try {
+//            about.setSelected(true);
+//        } catch (PropertyVetoException e) {
+//            JOptionPane.showMessageDialog(this, e.getMessage());
+//        }
     }//GEN-LAST:event_aboutUsActionPerformed
 
     private void itemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAboutActionPerformed
-        AboutUs about = new AboutUs();
-        about.setVisible(true);
-        desktop.add(about);
-        try {
-            about.setSelected(true);
-        } catch (PropertyVetoException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
     }//GEN-LAST:event_itemAboutActionPerformed
 
     /**
@@ -151,7 +135,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenu aboutUs;
     private javax.swing.JDesktopPane desktop;
     private javax.swing.JMenuItem itemAbout;
-    private javax.swing.JMenuItem itemBarang;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menu;
     // End of variables declaration//GEN-END:variables
