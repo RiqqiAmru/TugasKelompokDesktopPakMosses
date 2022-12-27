@@ -1,0 +1,11 @@
+- untuk pelanggan apakah bisa mengedit no_pln (resiko database nya)
+//sementara dibuat hanya bisa edit nama pelanggan (seperti kurang tepat?)
+
+- tampilan jual pulsa untuk no_pln/pelanggan apakah dibuat dropdown atau text field
+-- dropdown  
+--- pros = auto click pelanggan, bisa pake keyboard untuk pencarian
+--- cons = tidak bisa fitur "pelanggan tidak terdaftar, input pelanggan?"
+-- textfield
+--- pros = bisa fitur "pelanggan tidak terdaftar, input pelanggan?"
+--- cons = susah untuk pencarian secara live, harus selesai input nama/pln pelanggan
+//sementara dibuat dropdown dulu
