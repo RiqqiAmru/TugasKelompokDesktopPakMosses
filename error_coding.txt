@@ -9,3 +9,9 @@
 --- pros = bisa fitur "pelanggan tidak terdaftar, input pelanggan?"
 --- cons = susah untuk pencarian secara live, harus selesai input nama/pln pelanggan
 //sementara dibuat dropdown dulu
+
+
+
+* CURRENT WORKING
+- how to parse rupiah number format back to int in order to insert database (form transjual)
+

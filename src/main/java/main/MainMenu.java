@@ -7,11 +7,9 @@ package main;
 import config.CRUD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,33 +22,43 @@ public final class MainMenu extends javax.swing.JFrame {
     */
    CRUD crud;
    String namaAkun;
+   int idAkun;
    ResultSet akun;
    String saldo;
 
-   public MainMenu(String nama) {
+   public MainMenu(int idAkun) {
       initComponents();
       crud = new CRUD();
-      namaAkun = nama;
+      this.idAkun = idAkun;
       refreshSaldo();
 
-      PanelPelanggan pelanggan = new PanelPelanggan();
+      PanelPelanggan pelanggan = new PanelPelanggan(crud);
       pelanggan.setVisible(true);
       jTabbedPane1.addTab("PELANGGAN", pelanggan);
 
-      PanelTransJual transjual = new PanelTransJual();
-      transjual.setVisible(true);
-      jTabbedPane1.addTab("PELANGGAN", transjual);
+      PanelTransJual transJual = new PanelTransJual(idAkun, crud);
+      transJual.setVisible(true);
+      jTabbedPane1.addTab("JUAL PULSA", transJual);
+
+      PanelsiSaldo transBeli = new PanelsiSaldo(idAkun, crud);
+      transBeli.setVisible(true);
+      jTabbedPane1.addTab("ISI SALDO", transBeli);
+
+      PanelProfil profil = new PanelProfil(idAkun, crud);
+      profil.setVisible(true);
+      jTabbedPane1.addTab("PROFIL", profil);
+
    }
 
    public void refreshSaldo() {
-      akun = crud.ambilData("SELECT * FROM  akun WHERE nama = '" + namaAkun + "'");
+      akun = crud.ambilData("SELECT * FROM  akun WHERE id_akun = '" + idAkun + "'");
       try {
          if (akun.next()) {
             saldo = crud.integerToRupiah(Integer.parseInt(akun.getString("saldo")));
+            namaAkun = akun.getString("nama");
          }
          System.out.println("");
          lblAdmin.setText(namaAkun.toUpperCase());
-         lblSaldo.setText(saldo);
       } catch (SQLException ex) {
          Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -69,7 +77,6 @@ public final class MainMenu extends javax.swing.JFrame {
       jLabel1 = new javax.swing.JLabel();
       lblAdmin = new javax.swing.JLabel();
       btnLogout = new javax.swing.JButton();
-      lblSaldo = new javax.swing.JLabel();
       jTabbedPane1 = new javax.swing.JTabbedPane();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -85,16 +92,12 @@ public final class MainMenu extends javax.swing.JFrame {
          }
       });
 
-      lblSaldo.setText("Rp.-,-");
-
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
       jPanel1Layout.setHorizontalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel1Layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(lblSaldo)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 330, Short.MAX_VALUE)
+            .addContainerGap(374, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                   .addComponent(jLabel1)
@@ -113,8 +116,7 @@ public final class MainMenu extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(btnLogout)
-               .addComponent(lblAdmin)
-               .addComponent(lblSaldo))
+               .addComponent(lblAdmin))
             .addGap(31, 31, 31))
       );
 
@@ -176,7 +178,7 @@ public final class MainMenu extends javax.swing.JFrame {
       /* Create and display the form */
       java.awt.EventQueue.invokeLater(new Runnable() {
          public void run() {
-            new MainMenu("ali").setVisible(true);
+            new MainMenu(1).setVisible(true);
          }
       });
    }
@@ -187,6 +189,5 @@ public final class MainMenu extends javax.swing.JFrame {
    private javax.swing.JPanel jPanel1;
    private javax.swing.JTabbedPane jTabbedPane1;
    private javax.swing.JLabel lblAdmin;
-   private javax.swing.JLabel lblSaldo;
    // End of variables declaration//GEN-END:variables
 }

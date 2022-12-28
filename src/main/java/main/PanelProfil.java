@@ -3,19 +3,57 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ianGanteng;
+package main;
+
+import config.CRUD;
+import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author windows
  */
-public class profilku extends javax.swing.JPanel {
+public class PanelProfil extends javax.swing.JPanel {
+
+   int idAkun;
+   CRUD crud;
+   String namaLama;
+   String noHPLama;
+   String alamatLama;
+   String passLama;
+   boolean[] success = new boolean[4];
 
    /**
     * Creates new form profilku
     */
-   public profilku() {
+   public PanelProfil(int idAkun, CRUD crud) {
+      this.idAkun = idAkun;
+      this.crud = crud;
       initComponents();
+      isiForm();
+
+   }
+
+   public void isiForm() {
+      try {
+         ResultSet akun = crud.ambilData("SELECT * FROM akun WHERE id_akun = '" + idAkun + "'");
+         if (akun.first()) {
+            namaLama = akun.getString("nama");
+            noHPLama = akun.getString("no_hp");
+            alamatLama = akun.getString("alamat");
+            passLama = crud.StringToMD5(akun.getString("password"));
+
+            tNama.setText(namaLama);
+            tNoHp.setText(noHPLama);
+            tAlamat.setText(alamatLama);
+            tPassword.setText(passLama);
+         }
+      } catch (SQLException | NoSuchAlgorithmException ex) {
+         Logger.getLogger(PanelProfil.class.getName()).log(Level.SEVERE, null, ex);
+      }
    }
 
    /**
@@ -36,6 +74,12 @@ public class profilku extends javax.swing.JPanel {
       lblSaldo = new javax.swing.JLabel();
       btnBatal = new javax.swing.JButton();
 
+      addComponentListener(new java.awt.event.ComponentAdapter() {
+         public void componentShown(java.awt.event.ComponentEvent evt) {
+            formComponentShown(evt);
+         }
+      });
+
       tNama.setBorder(javax.swing.BorderFactory.createTitledBorder("Nama"));
 
       tNoHp.setBorder(javax.swing.BorderFactory.createTitledBorder("No Hp"));
@@ -43,6 +87,12 @@ public class profilku extends javax.swing.JPanel {
       tAlamat.setBorder(javax.swing.BorderFactory.createTitledBorder("Alamat"));
 
       tPassword.setBorder(javax.swing.BorderFactory.createTitledBorder("Password"));
+
+      chkSee.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+            chkSeeActionPerformed(evt);
+         }
+      });
 
       btnSimpan.setText("Simpan");
 
@@ -98,6 +148,15 @@ public class profilku extends javax.swing.JPanel {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
    }// </editor-fold>//GEN-END:initComponents
+
+   private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+      crud.refreshSaldo(idAkun, lblSaldo);
+      isiForm();
+   }//GEN-LAST:event_formComponentShown
+
+   private void chkSeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSeeActionPerformed
+      crud.togglePassword(tPassword, chkSee);
+   }//GEN-LAST:event_chkSeeActionPerformed
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JButton btnBatal;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 25, 2022 at 01:56 AM
+-- Generation Time: Dec 28, 2022 at 04:34 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -33,7 +33,7 @@ CREATE TABLE `akun` (
   `no_hp` varchar(15) NOT NULL,
   `alamat` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `saldo` int(11) NOT NULL
+  `saldo` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -41,8 +41,10 @@ CREATE TABLE `akun` (
 --
 
 INSERT INTO `akun` (`id_akun`, `nama`, `no_hp`, `alamat`, `password`, `saldo`) VALUES
-(1, 'ali', '086458244968', 'poncol', '86318e52f5ed4801abe1d13d509443de', 99900),
-(2, 'febi', '08564138', 'bandengan', 'febi', 379500);
+(1, 'ali', '086458244968', 'poncol', '86318e52f5ed4801abe1d13d509443de', 1019300),
+(2, 'febi', '08564138', 'bandengan', 'febi', 379500),
+(3, 'j', 'j', 'j', '363b122c528f54df4a0446b6bab05515', 0),
+(9, 'I', 'I', 'I', 'dd7536794b63bf90eccfd37f9b147d7f', 0);
 
 --
 -- Triggers `akun`
@@ -94,7 +96,16 @@ INSERT INTO `log_saldo` (`tgl`, `transaksi`, `ket`, `saldo`, `id_akun`) VALUES
 ('2022-12-25 07:00:12', -20100, 'saldo berkurang', 1479700, 2),
 ('2022-12-25 07:03:02', -100100, 'saldo berkurang', 1379600, 2),
 ('2022-12-25 07:05:01', -200100, 'saldo berkurang', 99900, 1),
-('2022-12-25 07:05:26', -1000100, 'saldo berkurang', 379500, 2);
+('2022-12-25 07:05:26', -1000100, 'saldo berkurang', 379500, 2),
+('2022-12-28 08:09:42', -20100, 'saldo berkurang', 79800, 1),
+('2022-12-28 08:09:48', -20100, 'saldo berkurang', 59700, 1),
+('2022-12-28 08:10:48', -50100, 'saldo berkurang', 9600, 1),
+('2022-12-28 08:27:25', 1000000, 'saldo bertambah', 1009600, 1),
+('2022-12-28 08:27:56', -20100, 'saldo berkurang', 989500, 1),
+('2022-12-28 09:01:21', -20100, 'saldo berkurang', 969400, 1),
+('2022-12-28 09:03:59', -100100, 'saldo berkurang', 869300, 1),
+('2022-12-28 10:02:02', 50000, 'saldo bertambah', 919300, 1),
+('2022-12-28 10:02:15', 100000, 'saldo bertambah', 1019300, 1);
 
 -- --------------------------------------------------------
 
@@ -114,7 +125,13 @@ CREATE TABLE `pelanggan` (
 INSERT INTO `pelanggan` (`no_pln`, `nama`) VALUES
 ('1', 'ian'),
 ('123456', 'riqqi'),
-('2', 'adit');
+('2', 'adit'),
+('a', 'abata'),
+('aa', 'a'),
+('ab', 'ian'),
+('b', 'b'),
+('c', 'a'),
+('maghrib', 'maghriba');
 
 -- --------------------------------------------------------
 
@@ -173,7 +190,7 @@ CREATE TABLE `trans_beli` (
   `no_trans_beli` int(11) NOT NULL,
   `nominal` int(11) NOT NULL,
   `id_akun` int(11) NOT NULL,
-  `tgl` datetime NOT NULL
+  `tgl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -183,7 +200,10 @@ CREATE TABLE `trans_beli` (
 INSERT INTO `trans_beli` (`no_trans_beli`, `nominal`, `id_akun`, `tgl`) VALUES
 (3, 50000, 2, '2022-12-22 17:00:55'),
 (6, 50000, 1, '2022-12-25 00:57:04'),
-(7, 100000, 2, '2022-12-25 00:57:16');
+(7, 100000, 2, '2022-12-25 00:57:16'),
+(8, 1000000, 1, '0000-00-00 00:00:00'),
+(9, 50000, 1, '2022-12-28 10:02:02'),
+(10, 100000, 1, '2022-12-28 10:02:15');
 
 --
 -- Triggers `trans_beli`
@@ -206,7 +226,7 @@ CREATE TABLE `trans_jual` (
   `harga` int(11) NOT NULL,
   `bayar` int(11) NOT NULL,
   `id_akun` int(11) NOT NULL,
-  `tgl` datetime NOT NULL
+  `tgl` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -219,7 +239,13 @@ INSERT INTO `trans_jual` (`no_trans_jual`, `no_pln`, `harga`, `bayar`, `id_akun`
 (3, '1', 20000, 0, 2, '2022-12-25 00:59:52'),
 (4, '1', 100000, 1003000, 2, '2022-12-25 01:00:55'),
 (5, '123456', 200000, 200000, 1, '2022-12-25 01:03:25'),
-(6, '1', 1000000, 200000, 2, '2022-12-25 01:05:12');
+(6, '1', 1000000, 200000, 2, '2022-12-25 01:05:12'),
+(7, '123456', 20000, 23000, 1, '2022-12-28 08:09:42'),
+(8, '123456', 20000, 23000, 1, '2022-12-28 08:09:48'),
+(9, '1', 50000, 53000, 1, '2022-12-28 08:10:48'),
+(10, '123456', 20000, 23000, 1, '2022-12-28 08:27:56'),
+(11, '123456', 20000, 23000, 1, '2022-12-28 09:01:21'),
+(12, 'a', 100000, 103000, 1, '2022-12-28 09:03:59');
 
 --
 -- Triggers `trans_jual`
@@ -248,7 +274,8 @@ DELIMITER ;
 -- Indexes for table `akun`
 --
 ALTER TABLE `akun`
-  ADD PRIMARY KEY (`id_akun`);
+  ADD PRIMARY KEY (`id_akun`),
+  ADD UNIQUE KEY `no_hp` (`no_hp`);
 
 --
 -- Indexes for table `pelanggan`
@@ -291,7 +318,7 @@ ALTER TABLE `trans_jual`
 -- AUTO_INCREMENT for table `akun`
 --
 ALTER TABLE `akun`
-  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `saldo`
@@ -303,13 +330,13 @@ ALTER TABLE `saldo`
 -- AUTO_INCREMENT for table `trans_beli`
 --
 ALTER TABLE `trans_beli`
-  MODIFY `no_trans_beli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `no_trans_beli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `trans_jual`
 --
 ALTER TABLE `trans_jual`
-  MODIFY `no_trans_jual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `no_trans_jual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables

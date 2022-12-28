@@ -13,10 +13,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import main.MainMenu;
 
 /**
  *
@@ -30,6 +34,8 @@ public class CRUD {
    protected String pass = "";
    protected Connection cn;
    protected Statement st;
+   DecimalFormat IDR = (DecimalFormat) DecimalFormat.getCurrencyInstance(new Locale("id", "ID"));
+   NumberFormat id = NumberFormat.getInstance(new Locale("id", "ID"));
 
    public CRUD() {
       koneksi();
@@ -41,7 +47,7 @@ public class CRUD {
       try {
          Class.forName(driver);
          cn = DriverManager.getConnection(url, user, pass);
-         st = cn.createStatement();
+         st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 0);
          System.out.println("koneksi berhasil");
       } catch (ClassNotFoundException | SQLException ex) {
          Logger.getLogger(CRUD.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,11 +70,25 @@ public class CRUD {
          st.executeUpdate(query);
       } catch (SQLException ex) {
          Logger.getLogger(CRUD.class.getName()).log(Level.SEVERE, null, ex);
+         JOptionPane.showMessageDialog(null, ex.getMessage());
       }
    }
 
    public void updateData(String query) {
       insertData(query);
+   }
+
+   public void refreshSaldo(int idAkun, javax.swing.JLabel l) {
+      ResultSet akun = ambilData("SELECT * FROM  akun WHERE id_akun = '" + idAkun + "'");
+      String saldo;
+      try {
+         if (akun.first()) {
+            saldo = integerToRupiah(Integer.parseInt(akun.getString("saldo")));
+            l.setText("Saldo : " + saldo);
+         }
+      } catch (SQLException ex) {
+         Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+      }
    }
 
 //    ---FUNCTIONAL---
@@ -78,12 +98,19 @@ public class CRUD {
 
    public void textSucces(javax.swing.JTextField j, String text) {
       j.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0)), text, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 255, 0)));
-
    }
 
    public void defaultText(javax.swing.JTextField ara, String text) {
       ara.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), text));
+   }
 
+   public void comboSuccess(javax.swing.JComboBox j, String text) {
+      j.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0)), text, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 13), new java.awt.Color(0, 255, 0))); // NOI18N
+
+   }
+
+   public void comboDefault(javax.swing.JComboBox j, String text) {
+      j.setBorder(javax.swing.BorderFactory.createTitledBorder(text));
    }
 
    public void togglePassword(javax.swing.JPasswordField p, javax.swing.JCheckBox c) {
@@ -101,14 +128,29 @@ public class CRUD {
    }
 
    public String integerToRupiah(int nominal) {
-      DecimalFormat IDR = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-      DecimalFormatSymbols formatRp = new DecimalFormatSymbols();
-
-      formatRp.setCurrencySymbol("Rp.");
-      formatRp.setMonetaryDecimalSeparator('.');
-      formatRp.setGroupingSeparator('.');
-      IDR.setDecimalFormatSymbols(formatRp);
       return IDR.format(nominal);
+   }
+
+   public Number rupiahToNumber(String rupiah) {
+      try {
+         String substring = rupiah.substring(2);
+         Number parse = id.parse(substring);
+         return parse;
+      } catch (ParseException ex) {
+         Logger.getLogger(CRUD.class.getName()).log(Level.SEVERE, null, ex);
+         return 0;
+      }
+   }
+
+   public String dateToTgl(String tgl) {
+      try {
+         var date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", new Locale("id", "ID")).parse(tgl);
+         String tglOke = new SimpleDateFormat("EE, hh:mm:ss z dd/MMM/yy", new Locale("id", "ID")).format(date);
+         return tglOke;
+      } catch (ParseException ex) {
+         Logger.getLogger(CRUD.class.getName()).log(Level.SEVERE, null, ex);
+         return "error cannot parse tgl ";
+      }
    }
 
 //  ---VALIDASI---

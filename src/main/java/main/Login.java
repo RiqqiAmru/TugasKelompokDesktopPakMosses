@@ -147,7 +147,8 @@ public class Login extends javax.swing.JFrame {
          String StringToMD5 = crud.StringToMD5(pass);
          ResultSet akun = crud.ambilData("SELECT * FROM akun WHERE nama = '" + tNama.getText() + "' and password = '" + StringToMD5 + "'");
          if (akun.next()) {
-            MainMenu menu = new MainMenu(tNama.getText());
+            int idAkun = Integer.parseInt(akun.getString("id_akun"));
+            MainMenu menu = new MainMenu(idAkun);
             menu.setVisible(true);
             System.out.println("berhasil login");
             this.dispose();

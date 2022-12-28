@@ -27,9 +27,9 @@ public class PanelPelanggan extends javax.swing.JPanel {
    String plnLama;
    CRUD crud;
 
-   public PanelPelanggan() {
+   public PanelPelanggan(CRUD crud) {
       initComponents();
-      crud = new CRUD();
+      this.crud = crud;
       refreshTablePelanggan();
    }
 
