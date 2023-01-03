@@ -71,7 +71,7 @@ public class PanelTransJual extends javax.swing.JPanel {
       cbNominal.setSelectedIndex(0);
       cbPelanggan.setSelectedIndex(0);
       Arrays.fill(success, false);
-      crud.validasi(success, bTambah);
+      crud.validasiAND(success, bTambah);
       crud.comboDefault(cbNominal, "Nominal");
       crud.comboDefault(cbPelanggan, "Pelanggan");
       lblBayar.setText("Bayar : ");
@@ -249,7 +249,7 @@ public class PanelTransJual extends javax.swing.JPanel {
          }
          lblNama.setText("Nama : " + namaPelanggan);
       }
-      crud.validasi(success, bTambah);
+      crud.validasiAND(success, bTambah);
    }//GEN-LAST:event_cbPelangganFocusLost
 
    private void cbNominalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbNominalFocusLost
@@ -264,7 +264,7 @@ public class PanelTransJual extends javax.swing.JPanel {
          bayar = nominal + 3000;
          lblBayar.setText("Bayar : " + crud.integerToRupiah((int) bayar));
       }
-      crud.validasi(success, bTambah);
+      crud.validasiAND(success, bTambah);
    }//GEN-LAST:event_cbNominalFocusLost
 
    private void bResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResetActionPerformed

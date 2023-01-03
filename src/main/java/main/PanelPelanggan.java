@@ -186,21 +186,21 @@ public class PanelPelanggan extends javax.swing.JPanel {
 
    private void tNamaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tNamaFocusLost
       if (btnSimpan.getText().equals("SIMPAN")) {
-         pelangganSuccess[0] = crud.ValidasiTextHarusDiIsi(tNama, "Nama", btnSimpan, pelangganSuccess);
+         pelangganSuccess[0] = crud.ValidasiTextHarusDiIsi(tNama, "Nama", btnSimpan);
       } else if (btnSimpan.getText().equals("EDIT")) {
          pelangganSuccess[1] = true;
-         pelangganSuccess[0] = crud.ValidasiTextHarusDiIsi(tNama, "Nama", btnSimpan, pelangganSuccess);
+         pelangganSuccess[0] = crud.ValidasiTextHarusDiIsi(tNama, "Nama", btnSimpan);
          if (tNama.getText().equals(namaLama)) {
             pelangganSuccess[0] = true;
          }
          //         ini masih memperbolehkan nama sama dengan pelanggan lain
       }
-      crud.validasi(pelangganSuccess, btnSimpan);
+      crud.validasiAND(pelangganSuccess, btnSimpan);
    }//GEN-LAST:event_tNamaFocusLost
 
    private void tNoPlnFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tNoPlnFocusLost
       if (btnSimpan.getText().equals("SIMPAN")) {
-         pelangganSuccess[1] = crud.ValidasiTextHarusDiIsi(tNoPln, "No PLN", btnSimpan, pelangganSuccess);
+         pelangganSuccess[1] = crud.ValidasiTextHarusDiIsi(tNoPln, "No PLN", btnSimpan);
          if (pelangganSuccess[1]) {
             ResultSet pelanggan = crud.ambilData("SELECT * FROM pelanggan WHERE no_pln = '" + tNoPln.getText() + "'");
             pelangganSuccess[1] = crud.validasiDataSudahTerdaftar(tNoPln, "No PLN", pelanggan);
@@ -215,7 +215,7 @@ public class PanelPelanggan extends javax.swing.JPanel {
          pelangganSuccess[1] = true;
       }
 
-      crud.validasi(pelangganSuccess, btnSimpan);
+      crud.validasiAND(pelangganSuccess, btnSimpan);
    }//GEN-LAST:event_tNoPlnFocusLost
 
    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed

@@ -25,7 +25,7 @@ public class Register extends javax.swing.JFrame {
    public Register() {
       initComponents();
       crud = new CRUD();
-      crud.validasi(success, btnRegister);
+      crud.validasiAND(success, btnRegister);
    }
 
 //    ini function
@@ -223,43 +223,42 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_chkSeeActionPerformed
 
     private void tNamaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tNamaFocusLost
-
-      success[0] = crud.ValidasiTextHarusDiIsi(tNama, "Nama ", btnRegister, success);
+      success[0] = crud.ValidasiTextHarusDiIsi(tNama, "Nama ", btnRegister);
       if (success[0]) {
          ResultSet akun = crud.ambilData("SELECT * FROM  akun WHERE nama = '" + tNama.getText() + "'");
          success[0] = crud.validasiDataSudahTerdaftar(tNama, "Nama ", akun);
-         crud.validasi(success, btnRegister);
       }
+      crud.validasiAND(success, btnRegister);
     }//GEN-LAST:event_tNamaFocusLost
 
     private void tNoHPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tNoHPFocusLost
-      success[1] = crud.ValidasiTextHarusDiIsi(tNoHP, "NO HP ", btnRegister, success);
-      crud.validasi(success, btnRegister);
+      success[1] = crud.ValidasiTextHarusDiIsi(tNoHP, "NO HP ", btnRegister);
+      crud.validasiAND(success, btnRegister);
     }//GEN-LAST:event_tNoHPFocusLost
 
     private void tAlamatFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tAlamatFocusLost
-      success[2] = crud.ValidasiTextHarusDiIsi(tAlamat, "Alamat ", btnRegister, success);
-      crud.validasi(success, btnRegister);
+      success[2] = crud.ValidasiTextHarusDiIsi(tAlamat, "Alamat ", btnRegister);
+      crud.validasiAND(success, btnRegister);
     }//GEN-LAST:event_tAlamatFocusLost
 
     private void tPassFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tPassFocusLost
-      success[3] = crud.ValidasiTextHarusDiIsi(tPass, "Password ", btnRegister, success);
+      success[3] = crud.ValidasiTextHarusDiIsi(tPass, "Password ", btnRegister);
       String pass = tPass.getText();
       String pass1 = tPass1.getText();
       if (success[3]) {
-         crud.validasiPasswordBeda(pass, pass1, tPass1, "Password");
+         success[4] = crud.validasiPasswordBeda(pass, pass1, tPass1, "Password 1");
       }
-      crud.validasi(success, btnRegister);
+      crud.validasiAND(success, btnRegister);
     }//GEN-LAST:event_tPassFocusLost
 
     private void tPass1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tPass1FocusLost
-      success[4] = crud.ValidasiTextHarusDiIsi(tPass1, "Konfirmasi Password ", btnRegister, success);
+      success[4] = crud.ValidasiTextHarusDiIsi(tPass1, "Konfirmasi Password ", btnRegister);
       String pass = tPass.getText();
       String pass1 = tPass1.getText();
       if (success[4]) {
-         crud.validasiPasswordBeda(pass, pass1, tPass1, "Konfirmasi Password");
+         success[4] = crud.validasiPasswordBeda(pass, pass1, tPass1, "Konfirmasi Password 2");
       }
-      crud.validasi(success, btnRegister);
+      crud.validasiAND(success, btnRegister);
     }//GEN-LAST:event_tPass1FocusLost
 
   private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed

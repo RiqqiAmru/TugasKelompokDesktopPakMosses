@@ -154,7 +154,7 @@ public class CRUD {
    }
 
 //  ---VALIDASI---
-   public void validasi(boolean[] t, javax.swing.JButton a) {
+   public void validasiAND(boolean[] t, javax.swing.JButton a) {
       boolean hasil = true;
       for (boolean succes : t) {
          hasil = succes & hasil;
@@ -162,7 +162,24 @@ public class CRUD {
       }
    }
 
-   public boolean ValidasiTextHarusDiIsi(javax.swing.JTextField j, String text, javax.swing.JButton b, boolean[] bool) {
+   public void validasiOR(boolean[] t, javax.swing.JButton a) {
+      boolean hasil = false;
+      for (boolean succes : t) {
+         hasil = succes | hasil;
+         a.setEnabled(hasil);
+      }
+   }
+
+//to validate button register
+   public void reverseValidasiAND(boolean[] t, javax.swing.JButton a) {
+      boolean hasil = true;
+      for (boolean succes : t) {
+         hasil = succes & hasil;
+         a.setVisible(!hasil);
+      }
+   }
+
+   public boolean ValidasiTextHarusDiIsi(javax.swing.JTextField j, String text, javax.swing.JButton b) {
       if (j.getText().isBlank()) {
          textError(j, text + " Harus Di Isi");
          return false;
@@ -206,11 +223,19 @@ public class CRUD {
       if (pass1.equals(pass2)) {
          textSucces(j, text);
          return true;
-
       } else {
          textError(j, text + " Incorrect");
          return false;
       }
+   }
 
+   public boolean validasiPasswordBedaDariPassLama(String passBaru, String passLama, javax.swing.JTextField j, String text) {
+      if (!passLama.equals(passBaru)) {
+         textSucces(j, text);
+         return true;
+      } else {
+         textError(j, text + " Baru Harus Beda Dari Password Lama");
+         return false;
+      }
    }
 }

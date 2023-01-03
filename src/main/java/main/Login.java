@@ -174,22 +174,17 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegisterActionPerformed
 
   private void tNamaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tNamaFocusLost
-      succes[0] = crud.ValidasiTextHarusDiIsi(tNama, "Nama", btnLogin, succes);
+      succes[0] = crud.ValidasiTextHarusDiIsi(tNama, "Nama", btnLogin);
       if (succes[0]) {
          ResultSet akun = crud.ambilData("SELECT * FROM  akun WHERE nama = '" + tNama.getText() + "'");
          succes[0] = crud.validasiDataTabel(tNama, "Nama", akun);
-         if (!(succes[0])) {
-            btnRegister.setVisible(true);
-         } else {
-            btnRegister.setVisible(false);
-         }
       }
-      crud.validasi(succes, btnLogin);
-
+      crud.validasiAND(succes, btnLogin);
+      crud.reverseValidasiAND(succes, btnRegister);
   }//GEN-LAST:event_tNamaFocusLost
 
   private void tPassFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tPassFocusLost
-      succes[1] = crud.ValidasiTextHarusDiIsi(tPass, "Password ", btnLogin, succes);
+      succes[1] = crud.ValidasiTextHarusDiIsi(tPass, "Password ", btnLogin);
       if (succes[1]) {
          try {
             String pass = tPass.getText();
@@ -200,7 +195,8 @@ public class Login extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
          }
       }
-      crud.validasi(succes, btnLogin);
+      crud.validasiAND(succes, btnLogin);
+      crud.reverseValidasiAND(succes, btnRegister);
   }//GEN-LAST:event_tPassFocusLost
 
    /**
